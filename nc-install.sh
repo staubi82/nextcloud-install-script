@@ -3,9 +3,15 @@
 # Paketquellen aktualisieren und Systemupgrade durchführen
 apt update && apt upgrade -y
 
+# PHP-Repository hinzufügen und benötigte Pakete installieren
+apt install -y lsb-release apt-transport-https ca-certificates
+wget -q https://packages.sury.org/php/apt.gpg -O- | apt-key add -
+echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list
+apt update
+
 # Benötigte Pakete installieren
-apt install -y nginx mariadb-server php-fpm \
-php-gd php-mysql php-curl php-intl php-mbstring php-xml php-zip php-bz2 php-json php-common php-cli php-opcache php-readline php-ldap wget unzip
+apt install -y nginx mariadb-server php8.2-fpm \
+php8.2-gd php8.2-mysql php8.2-curl php8.2-intl php8.2-mbstring php8.2-xml php8.2-zip php8.2-bz2 php8.2-json php8.2-common php8.2-cli php8.2-opcache php8.2-readline php8.2-ldap wget unzip
 
 # MariaDB konfigurieren und starten
 service mysql start
@@ -75,7 +81,7 @@ server {
         fastcgi_split_path_info ^(.+\.php)(/.*)\$;
         fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
         fastcgi_param PATH_INFO \$fastcgi_path_info;
-        fastcgi_pass unix:/var/run/php/php8.0-fpm.sock;
+        fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;
         include fastcgi_params;
     }
 
@@ -98,8 +104,8 @@ rm /etc/nginx/sites-enabled/default
 systemctl restart nginx
 
 # PHP-FPM konfigurieren
-sed -i 's/;date.timezone =/date.timezone = Europe\/Berlin/' /etc/php/8.0/fpm/php.ini
-systemctl restart php8.0-fpm
+sed -i 's/;date.timezone =/date.timezone = Europe\/Berlin/' /etc/php/8.2/fpm/php.ini
+systemctl restart php8.2-fpm
 
 # Hinweis zur Erreichbarkeit von Nextcloud anzeigen
 IP=$(hostname -I | awk '{print $1}')
