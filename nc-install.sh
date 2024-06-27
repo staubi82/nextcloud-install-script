@@ -3,13 +3,16 @@
 # Paketquellen aktualisieren und Systemupgrade durchführen
 apt update && apt upgrade -y
 
-# PHP-Repository hinzufügen und benötigte Pakete installieren
-apt install -y lsb-release apt-transport-https ca-certificates
-wget -q https://packages.sury.org/php/apt.gpg -O- | apt-key add -
+# GPG-Schlüssel für PHP-Repository von Sury hinzufügen
+wget -qO- https://packages.sury.org/php/apt.gpg | apt-key add -
+
+# PHP-Repository zur Paketquelle hinzufügen
 echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list
+
+# Erneut Paketquellen aktualisieren
 apt update
 
-# Benötigte Pakete installieren
+# Benötigte Pakete installieren (PHP 8.2, Nginx, MariaDB und weitere)
 apt install -y nginx mariadb-server php8.2-fpm \
 php8.2-gd php8.2-mysql php8.2-curl php8.2-intl php8.2-mbstring php8.2-xml php8.2-zip php8.2-bz2 php8.2-json php8.2-common php8.2-cli php8.2-opcache php8.2-readline php8.2-ldap wget unzip
 
