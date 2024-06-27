@@ -3,15 +3,9 @@
 # Paketquellen aktualisieren und Systemupgrade durchführen
 apt update && apt upgrade -y
 
-# PHP-Repository hinzufügen und benötigte Pakete installieren
-apt install -y lsb-release apt-transport-https ca-certificates
-wget -q https://packages.sury.org/php/apt.gpg -O- | apt-key add -
-echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list
-apt update
-
 # Benötigte Pakete installieren
-apt install -y nginx mariadb-server php8.0-fpm \
-php8.0-gd php8.0-mysql php8.0-curl php8.0-intl php8.0-mbstring php8.0-xml php8.0-zip php8.0-bz2 php8.0-json php8.0-common php8.0-cli php8.0-opcache php8.0-readline php8.0-ldap wget unzip
+apt install -y nginx mariadb-server php-fpm \
+php-gd php-mysql php-curl php-intl php-mbstring php-xml php-zip php-bz2 php-json php-common php-cli php-opcache php-readline php-ldap wget unzip
 
 # MariaDB konfigurieren und starten
 service mysql start
