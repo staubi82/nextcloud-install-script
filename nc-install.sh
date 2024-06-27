@@ -98,7 +98,7 @@ rm /etc/nginx/sites-enabled/default
 systemctl restart nginx
 
 # PHP-FPM konfigurieren
-sed -i 's/;date.timezone =/date.timezone = Europe\/Berlin/' /etc/php/8.0/fpm/php.ini
+sed -i 's/;date.timezone =/date.timezone = Europe\/Berlin/' /etc/php/8.2/fpm/php.ini
 systemctl restart php8.2-fpm
 
 # Hinweis zur Erreichbarkeit von Nextcloud anzeigen
